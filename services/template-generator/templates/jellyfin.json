@@ -1,0 +1,67 @@
+{
+  "id": "jellyfin",
+  "name": "Jellyfin",
+  "description": "Free software media system that puts you in control of managing and streaming your media",
+  "category": "media",
+  "version": "1.0.0",
+  "tags": ["media", "streaming", "server", "jellyfin"],
+  "metadata": {
+    "defaultPorts": [8096],
+    "requiredVolumes": ["config", "media"],
+    "officialImage": "jellyfin/jellyfin"
+  },
+  "variables": [
+    {
+      "name": "jellyfinPort",
+      "type": "number",
+      "description": "Port for Jellyfin web interface",
+      "defaultValue": 8096,
+      "required": true
+    },
+    {
+      "name": "configPath",
+      "type": "string",
+      "description": "Path to store Jellyfin configuration",
+      "defaultValue": "./config/jellyfin",
+      "required": true
+    },
+    {
+      "name": "mediaPath",
+      "type": "string",
+      "description": "Path to media directory",
+      "defaultValue": "./media",
+      "required": true
+    },
+    {
+      "name": "timezone",
+      "type": "string",
+      "description": "Timezone for the container",
+      "defaultValue": "UTC",
+      "required": false
+    }
+  ],
+  "services": {
+    "jellyfin": {
+      "image": "jellyfin/jellyfin:latest",
+      "container_name": "jellyfin",
+      "environment": {
+        "TZ": "{{timezone}}"
+      },
+      "ports": [
+        "{{jellyfinPort}}:8096"
+      ],
+      "volumes": [
+        "{{configPath}}:/config",
+        "{{mediaPath}}:/media:ro"
+      ],
+      "restart": "unless-stopped",
+      "devices": [
+        "/dev/dri:/dev/dri"
+      ]
+    }
+  },
+  "networks": {},
+  "volumes": {
+    "jellyfin_config": {}
+  }
+}

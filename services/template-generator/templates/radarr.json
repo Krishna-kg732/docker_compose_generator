@@ -1,0 +1,74 @@
+{
+  "id": "radarr",
+  "name": "Radarr",
+  "description": "Movie collection manager for Usenet and BitTorrent users",
+  "category": "media",
+  "version": "1.0.0",
+  "tags": ["media", "automation", "movies", "downloads"],
+  "metadata": {
+    "defaultPorts": [7878],
+    "requiredVolumes": ["config", "movies"],
+    "officialImage": "linuxserver/radarr"
+  },
+  "variables": [
+    {
+      "name": "radarrPort",
+      "type": "number",
+      "description": "Port for Radarr web interface",
+      "defaultValue": 7878,
+      "required": true
+    },
+    {
+      "name": "configPath",
+      "type": "string",
+      "description": "Path to store Radarr configuration",
+      "defaultValue": "./config/radarr",
+      "required": true
+    },
+    {
+      "name": "moviesPath",
+      "type": "string",
+      "description": "Path to movies directory",
+      "defaultValue": "./media/movies",
+      "required": true
+    },
+    {
+      "name": "downloadsPath",
+      "type": "string",
+      "description": "Path to downloads directory",
+      "defaultValue": "./downloads",
+      "required": false
+    },
+    {
+      "name": "timezone",
+      "type": "string",
+      "description": "Timezone for the container",
+      "defaultValue": "UTC",
+      "required": false
+    }
+  ],
+  "services": {
+    "radarr": {
+      "image": "linuxserver/radarr:latest",
+      "container_name": "radarr",
+      "environment": {
+        "PUID": "1000",
+        "PGID": "1000",
+        "TZ": "{{timezone}}"
+      },
+      "ports": [
+        "{{radarrPort}}:7878"
+      ],
+      "volumes": [
+        "{{configPath}}:/config",
+        "{{moviesPath}}:/movies",
+        "{{downloadsPath}}:/downloads"
+      ],
+      "restart": "unless-stopped"
+    }
+  },
+  "networks": {},
+  "volumes": {
+    "radarr_config": {}
+  }
+}

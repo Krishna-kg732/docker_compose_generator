@@ -1,13 +1,14 @@
-# Template Generator Service
+# Dynamic Template Generator Service
 
-## Overview
-A microservice responsible for managing, generating, and validating Docker Compose templates for various application stacks and use cases.
+A microservice that dynamically generates Docker Compose files based on user-selected services with variable substitution.
 
 ## Features
-- **Template Management**: CRUD operations for compose templates
-- **Dynamic Generation**: Generate templates based on user requirements
-- **Version Control**: Template versioning and rollback capabilities
-- **Marketplace Integration**: Import/export templates from community
+
+- **Dynamic Service Selection**: Choose from available service templates
+- **Variable Substitution**: Customize service configurations with Handlebars
+- **Service Composition**: Merge multiple services into a single docker-compose file
+- **Conflict Detection**: Validate port conflicts and service compatibility
+- **Template Reloading**: Hot reload service templates without restart
 - **Validation**: Ensure template correctness and best practices
 
 ## Technology Stack

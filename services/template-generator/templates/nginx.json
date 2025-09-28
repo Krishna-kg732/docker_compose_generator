@@ -1,0 +1,62 @@
+{
+  "id": "nginx",
+  "name": "Nginx",
+  "description": "High-performance HTTP server and reverse proxy",
+  "category": "web-server",
+  "version": "1.0.0",
+  "tags": ["web-server", "proxy", "load-balancer"],
+  "metadata": {
+    "defaultPorts": [80, 443],
+    "requiredVolumes": ["config"],
+    "officialImage": "nginx"
+  },
+  "variables": [
+    {
+      "name": "httpPort",
+      "type": "number",
+      "description": "HTTP port",
+      "defaultValue": 80,
+      "required": true
+    },
+    {
+      "name": "httpsPort", 
+      "type": "number",
+      "description": "HTTPS port",
+      "defaultValue": 443,
+      "required": false
+    },
+    {
+      "name": "configPath",
+      "type": "string",
+      "description": "Path to nginx configuration",
+      "defaultValue": "./config/nginx",
+      "required": true
+    },
+    {
+      "name": "webRoot",
+      "type": "string",
+      "description": "Path to web root directory",
+      "defaultValue": "./html",
+      "required": false
+    }
+  ],
+  "services": {
+    "nginx": {
+      "image": "nginx:alpine",
+      "container_name": "nginx",
+      "ports": [
+        "{{httpPort}}:80",
+        "{{httpsPort}}:443"
+      ],
+      "volumes": [
+        "{{configPath}}/nginx.conf:/etc/nginx/nginx.conf:ro",
+        "{{webRoot}}:/usr/share/nginx/html:ro"
+      ],
+      "restart": "unless-stopped"
+    }
+  },
+  "networks": {},
+  "volumes": {
+    "nginx_config": {}
+  }
+}

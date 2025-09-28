@@ -1,0 +1,74 @@
+{
+  "id": "sonarr",
+  "name": "Sonarr",
+  "description": "Smart PVR for newsgroup and bittorrent users",
+  "category": "media",
+  "version": "1.0.0",
+  "tags": ["media", "automation", "tv", "downloads"],
+  "metadata": {
+    "defaultPorts": [8989],
+    "requiredVolumes": ["config", "tv"],
+    "officialImage": "linuxserver/sonarr"
+  },
+  "variables": [
+    {
+      "name": "sonarrPort",
+      "type": "number",
+      "description": "Port for Sonarr web interface",
+      "defaultValue": 8989,
+      "required": true
+    },
+    {
+      "name": "configPath",
+      "type": "string", 
+      "description": "Path to store Sonarr configuration",
+      "defaultValue": "./config/sonarr",
+      "required": true
+    },
+    {
+      "name": "tvPath",
+      "type": "string",
+      "description": "Path to TV shows directory",
+      "defaultValue": "./media/tv",
+      "required": true
+    },
+    {
+      "name": "downloadsPath",
+      "type": "string",
+      "description": "Path to downloads directory",
+      "defaultValue": "./downloads",
+      "required": false
+    },
+    {
+      "name": "timezone",
+      "type": "string",
+      "description": "Timezone for the container",
+      "defaultValue": "UTC",
+      "required": false
+    }
+  ],
+  "services": {
+    "sonarr": {
+      "image": "linuxserver/sonarr:latest",
+      "container_name": "sonarr",
+      "environment": {
+        "PUID": "1000",
+        "PGID": "1000",
+        "TZ": "{{timezone}}"
+      },
+      "ports": [
+        "{{sonarrPort}}:8989"
+      ],
+      "volumes": [
+        "{{configPath}}:/config",
+        "{{tvPath}}:/tv",
+        "{{downloadsPath}}:/downloads"
+      ],
+      "restart": "unless-stopped"
+    }
+  },
+  "networks": {},
+  "volumes": {
+    "sonarr_config": {}
+  }
+}

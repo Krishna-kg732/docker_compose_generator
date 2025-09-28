@@ -1,0 +1,58 @@
+{
+  "id": "prowlarr",
+  "name": "Prowlarr",
+  "description": "Indexer manager/proxy built on the popular *arr .NET/Reactor stack",
+  "category": "media",
+  "version": "1.0.0",
+  "tags": ["media", "automation", "indexer", "proxy"],
+  "metadata": {
+    "defaultPorts": [9696],
+    "requiredVolumes": ["config"],
+    "officialImage": "linuxserver/prowlarr"
+  },
+  "variables": [
+    {
+      "name": "prowlarrPort",
+      "type": "number",
+      "description": "Port for Prowlarr web interface",
+      "defaultValue": 9696,
+      "required": true
+    },
+    {
+      "name": "configPath",
+      "type": "string",
+      "description": "Path to store Prowlarr configuration",
+      "defaultValue": "./config/prowlarr",
+      "required": true
+    },
+    {
+      "name": "timezone",
+      "type": "string",
+      "description": "Timezone for the container",
+      "defaultValue": "UTC",
+      "required": false
+    }
+  ],
+  "services": {
+    "prowlarr": {
+      "image": "linuxserver/prowlarr:latest",
+      "container_name": "prowlarr",
+      "environment": {
+        "PUID": "1000",
+        "PGID": "1000",
+        "TZ": "{{timezone}}"
+      },
+      "ports": [
+        "{{prowlarrPort}}:9696"
+      ],
+      "volumes": [
+        "{{configPath}}:/config"
+      ],
+      "restart": "unless-stopped"
+    }
+  },
+  "networks": {},
+  "volumes": {
+    "prowlarr_config": {}
+  }
+}

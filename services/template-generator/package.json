@@ -1,24 +1,29 @@
 {
   "name": "template-generator",
   "version": "1.0.0",
-  "description": "A microservice responsible for managing, generating, and validating Docker Compose templates for various application stacks and use cases.",
-  "main": "index.js",
+  "description": "Dynamic Docker Compose template generator with service selection and variable substitution",
+  "main": "app.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "test": "echo \"No tests specified\" && exit 0"
   },
-  "keywords": [],
+  "keywords": [
+    "docker",
+    "compose",
+    "template",
+    "generator",
+    "dynamic",
+    "microservice"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^4.18.0",
     "handlebars": "^4.7.0",
-    "helmet": "^6.0.0",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^7.0.0",
-    "morgan": "^1.10.0"
+    "js-yaml": "^4.1.0",
+    "mongoose": "^8.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

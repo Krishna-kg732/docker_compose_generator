@@ -1,0 +1,67 @@
+{
+  "id": "qbittorrent",
+  "name": "qBittorrent",
+  "description": "Free and open-source BitTorrent client",
+  "category": "downloads",
+  "version": "1.0.0",
+  "tags": ["downloads", "torrent", "p2p"],
+  "metadata": {
+    "defaultPorts": [8080],
+    "requiredVolumes": ["config", "downloads"],
+    "officialImage": "linuxserver/qbittorrent"
+  },
+  "variables": [
+    {
+      "name": "qbittorrentPort",
+      "type": "number",
+      "description": "Port for qBittorrent web interface",
+      "defaultValue": 8080,
+      "required": true
+    },
+    {
+      "name": "configPath",
+      "type": "string",
+      "description": "Path to store qBittorrent configuration",
+      "defaultValue": "./config/qbittorrent",
+      "required": true
+    },
+    {
+      "name": "downloadsPath",
+      "type": "string",
+      "description": "Path to downloads directory",
+      "defaultValue": "./downloads",
+      "required": true
+    },
+    {
+      "name": "timezone",
+      "type": "string",
+      "description": "Timezone for the container",
+      "defaultValue": "UTC",
+      "required": false
+    }
+  ],
+  "services": {
+    "qbittorrent": {
+      "image": "linuxserver/qbittorrent:latest",
+      "container_name": "qbittorrent",
+      "environment": {
+        "PUID": "1000",
+        "PGID": "1000",
+        "TZ": "{{timezone}}",
+        "WEBUI_PORT": "{{qbittorrentPort}}"
+      },
+      "ports": [
+        "{{qbittorrentPort}}:{{qbittorrentPort}}"
+      ],
+      "volumes": [
+        "{{configPath}}:/config",
+        "{{downloadsPath}}:/downloads"
+      ],
+      "restart": "unless-stopped"
+    }
+  },
+  "networks": {},
+  "volumes": {
+    "qbittorrent_config": {}
+  }
+}
